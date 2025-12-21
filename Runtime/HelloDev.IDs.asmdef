@@ -1,0 +1,17 @@
+{
+    "name": "HelloDev.IDs",
+    "rootNamespace": "HelloDev.IDs",
+    "references": [
+        "GUID:eec0964c48f6f4e40bc3ec2257ccf8c5",
+        "GUID:e5b4c3e4ab8f025469eb50f7f4489925"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
