@@ -1,6 +1,6 @@
 # HelloDev IDs
 
-GUID-based unique identifier system with localization support.
+GUID-based unique identifier system with localization support. Use IDs to create type-safe references for game entities like items, NPCs, locations, and more.
 
 ## Features
 
@@ -11,6 +11,73 @@ GUID-based unique identifier system with localization support.
 - `==` and `!=` operators for natural comparison syntax
 - Cached GUID parsing for performance
 - Auto-generates GUID on creation
+
+## Getting Started
+
+### 1. Install the Package
+
+**Via Package Manager (Local):**
+1. Open Unity Package Manager (Window > Package Manager)
+2. Click "+" > "Add package from disk"
+3. Navigate to this folder and select `package.json`
+
+**Dependencies:** Ensure `com.hellodev.utils` and `com.unity.localization` are installed.
+
+### 2. Create Your First ID
+
+1. Right-click in Project window
+2. Select **Create > HelloDev > IDs > New ID**
+3. Name it descriptively (e.g., `ID_Sword_Iron`)
+4. Set the `DevName` in the inspector (e.g., "Iron Sword")
+5. Configure the `DisplayName` for localization
+
+### 3. Use the ID in Your Code
+
+```csharp
+using HelloDev.IDs;
+using UnityEngine;
+
+public class Item : MonoBehaviour
+{
+    [SerializeField] private ID_SO itemId;
+
+    public ID_SO ItemId => itemId;
+
+    public bool IsItem(ID_SO otherId)
+    {
+        // Simple equality check using == operator
+        return itemId == otherId;
+    }
+}
+```
+
+### 4. Build an ID-Based System
+
+```csharp
+using HelloDev.IDs;
+using System.Collections.Generic;
+
+public class Inventory : MonoBehaviour
+{
+    private Dictionary<System.Guid, int> _itemCounts = new();
+
+    public void AddItem(ID_SO itemId, int count = 1)
+    {
+        var guid = itemId.Id;  // Cached GUID, efficient access
+        _itemCounts[guid] = _itemCounts.GetValueOrDefault(guid) + count;
+    }
+
+    public int GetCount(ID_SO itemId)
+    {
+        return _itemCounts.GetValueOrDefault(itemId.Id);
+    }
+
+    public bool HasItem(ID_SO itemId)
+    {
+        return GetCount(itemId) > 0;
+    }
+}
+```
 
 ## Installation
 
@@ -72,6 +139,47 @@ public void AddItem(ID_SO itemId, int count)
 // Safe even if either is null
 if (itemId == otherId) { }
 if (itemId != null) { }
+```
+
+### Creating ID Categories
+
+Organize your IDs by creating folders:
+
+```
+Assets/
+└── Data/
+    └── IDs/
+        ├── Items/
+        │   ├── ID_Sword_Iron.asset
+        │   ├── ID_Sword_Steel.asset
+        │   └── ID_Potion_Health.asset
+        ├── NPCs/
+        │   ├── ID_NPC_Blacksmith.asset
+        │   └── ID_NPC_Merchant.asset
+        └── Locations/
+            ├── ID_Location_Town.asset
+            └── ID_Location_Dungeon.asset
+```
+
+### Using with Events
+
+IDs work great with the HelloDev Events system:
+
+```csharp
+using HelloDev.IDs;
+using HelloDev.Events;
+
+public class Monster : MonoBehaviour
+{
+    [SerializeField] private ID_SO monsterId;
+    [SerializeField] private GameEventID_SO onMonsterKilled;  // Custom event type
+
+    public void OnDeath()
+    {
+        // Raise generic event with specific ID
+        onMonsterKilled.Raise(monsterId);
+    }
+}
 ```
 
 ## API Reference
