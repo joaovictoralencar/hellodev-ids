@@ -6,8 +6,8 @@
   "unity": "6000.3",
   "unityRelease": "0f1",
   "dependencies": {
-    "com.hellodev.utils": "1.1.0",
-    "com.unity.localization": "1.5.3"
+    "com.hellodev.utils": "https://github.com/joaovictoralencar/hellodev-utils.git#v1.0.1",
+    "com.unity.localization": "1.5.11"
   },
   "keywords": [
     "id",
